@@ -26,19 +26,25 @@ class MetricsHandler(BaseHTTPRequestHandler):
                 self.wfile.write(metrics_output.encode('utf-8'))
             except (BrokenPipeError, ConnectionResetError):
                 pass
+            except OSError as e:
+                # Catch low-level socket closure errors (Broken pipe / Connection reset)
+                if e.errno in (32, 104):
+                    pass
+                else:
+                    raise
             except Exception as e:
                 try:
                     self.send_response(500)
                     self.end_headers()
                     self.wfile.write(f"# Error collecting metrics: {e}\n".encode('utf-8'))
-                except (BrokenPipeError, ConnectionResetError):
+                except (BrokenPipeError, ConnectionResetError, OSError):
                     pass
         else:
             try:
                 self.send_response(404)
                 self.end_headers()
                 self.wfile.write(b"Not Found. Try /metrics\n")
-            except (BrokenPipeError, ConnectionResetError):
+            except (BrokenPipeError, ConnectionResetError, OSError):
                 pass
 
     def collect_all_metrics(self):
