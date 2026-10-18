@@ -1,3 +1,8 @@
+pre_scrape:
+  enabled: true
+  interval_seconds: 300
+  timeout_seconds: 30
+
 meters:
-  - account_no: "ACCOUNT+ID"
-    meter_no: "METER_ID"
+  - account_no: "ACC"
+    meter_no: "METER"
