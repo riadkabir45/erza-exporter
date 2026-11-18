@@ -1,8 +1,11 @@
 pre_scrape:
   enabled: true
-  interval_seconds: 300
-  timeout_seconds: 30
+  interval_seconds: 7200
+  timeout_seconds: 15
 
-meters:
-  - account_no: "ACC"
-    meter_no: "METER"
+auth:
+  username: "XXXXXX"
+  password: "XXXXXX"
+
+# Optional filter: if empty, all accounts linked to the user will be automatically exported.
+accounts: []
